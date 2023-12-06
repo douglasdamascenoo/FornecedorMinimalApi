@@ -1,10 +1,9 @@
 using minimalFornecedor.Data;
 using Microsoft.EntityFrameworkCore;
+using minimalFornecedor.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -14,7 +13,6 @@ builder.Services.AddDbContext<FornecedorContextDb>(opt =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -23,28 +21,37 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.MapGet("/fornecedor", async (
+    FornecedorContextDb context) =>
+    await context.Fornecedores.ToListAsync())
+.WithName("GetFornecedor")
+.WithTags("Fornecedor");
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateTime.Now.AddDays(index),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.MapGet("/fornecedor/{id}", async (
+    Guid id,
+    FornecedorContextDb context
+    ) =>
+    await context.Fornecedores.FindAsync(id)
+    is Fornecedor fornecedor
+        ? Results.Ok(fornecedor)
+        : Results.NotFound())
+.Produces<Fornecedor>(StatusCodes.Status200OK)
+.Produces(StatusCodes.Status404NotFound)
+.WithName("GetFornecedorPorId")
+.WithTags("Fornecedor");
+
+app.MapPost("/fornecedor", async (
+    FornecedorContextDb context,
+    Fornecedor fornecedor
+    ) =>
+    {
+        context.Fornecedores.Add(fornecedor);
+        var result = await context.SaveChangesAsync();
+    })
+.Produces<Fornecedor>(StatusCodes.Status201Created)
+.Produces(StatusCodes.Status400BadRequest)
+.WithName("PostFornecedor")
+.WithTags("Fornecedor");
+
 
 app.Run();
-
-record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

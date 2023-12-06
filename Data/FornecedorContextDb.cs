@@ -7,7 +7,7 @@ namespace minimalFornecedor.Data
     {
         public FornecedorContextDb(DbContextOptions<FornecedorContextDb> options) : base(options) { }
 
-        public DbSet<Fornecedor>? Fornecedores { get; set; }
+        public DbSet<Fornecedor> Fornecedores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
