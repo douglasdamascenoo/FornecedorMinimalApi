@@ -4,7 +4,7 @@ Projeto de estudo de API mínima seguindo o tutorial do Eduardo Pires - Desenvol
 
 Desenvolvimento de uma API mínima baseada em cadastro de fornecedor com autenticação via token - Bearer Authetication.
 
-## Comandos CLI para este e outros projetos
+## Comandos CLI importantes
 - Listar todas as versões instaladas do .NET
 > `dotnet --info`
 
