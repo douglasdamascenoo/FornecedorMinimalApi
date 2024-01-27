@@ -32,9 +32,13 @@ Desenvolvimento de uma API mínima baseada em cadastro de fornecedor com autenti
 }`
 
 
+## Outro comandos importantes
 - Comandos EF Migrations para o Context do Identity
 Migration Add Initial Version Context
 > `dotnet ef migrations add initial-jwt-context --context NetDevPackAppDbContext`
 
-Update Database Context
+- Update Database Context
 > `dotnet ef database update --context NetDevPackAppDbContext`
+
+- Habiliar certificados de dev
+> `dotnet dev-certs https --check --trust`
