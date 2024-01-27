@@ -14,6 +14,10 @@ Desenvolvimento de uma API mínima baseada em cadastro de fornecedor com autenti
 - Listar Runtimes instalados
 > `dotnet --list-runtimes`
 
+- Listar tipos de projetos disponíveis para criação
+> `dotnet new`
+>
+> `dotnet new list`
 
 - Criar projeto com versão específica do .NET
 > `dotnet new web -o MyWebApp -f net5.0`
